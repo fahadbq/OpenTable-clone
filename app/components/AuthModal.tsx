@@ -81,7 +81,7 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
     <div>
       <button
         className={`${renderContent(
-          "bg-blue-400 text-white",
+          "bg-[#247f9e] text-white",
           ""
         )} border p-1 px-4 rounded mr-3`}
         onClick={handleOpen}
@@ -124,7 +124,7 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
                   isSignin={isSignin}
                 />
                 <button
-                  className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400"
+                  className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-red-400"
                   disabled={disabled}
                   onClick={handleClick}
                 >

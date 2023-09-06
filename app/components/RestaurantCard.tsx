@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { calculateReviewRatingAverage } from "../../utils/calculateReviewRatingAverage";
 import { RestaurantProps } from "../page";
 import Price from "./Price";
 import Stars from "./Stars";
@@ -18,8 +19,8 @@ const RestaurantCard = ({ restaurant }: Props) => {
           <div className="flex items-start">
             <Stars reviews={restaurant.reviews} />
             <p className="ml-2">
-              {restaurant?.reviews?.length} review
-              {restaurant?.reviews?.length === 1 ? "" : "s"}
+              {`${restaurant?.reviews?.length} 
+              review${restaurant?.reviews?.length === 1 ? "" : "s"}`}
             </p>
           </div>
           <div className="flex text-reg font-light capitalize">
