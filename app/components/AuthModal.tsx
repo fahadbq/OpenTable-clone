@@ -124,6 +124,7 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
                   isSignin={isSignin}
                 />
                 <button
+                  type="submit"
                   className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-red-400"
                   disabled={disabled}
                   onClick={handleClick}

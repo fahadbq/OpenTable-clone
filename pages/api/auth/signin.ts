@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import * as jose from "jose";
+import { setCookie } from "cookies-next";
 
 const prisma = new PrismaClient();
 
@@ -34,19 +35,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ errorMessage: errors[0] });
     }
 
-    const userWithEmail = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    if (!userWithEmail) {
+    if (!user) {
       return res
         .status(401)
         .json({ errorMessage: "Email or password is invalid" });
     }
 
-    const isMatch = bcrypt.compare(password, userWithEmail.password);
+    const isMatch = bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res
@@ -59,14 +60,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
     const token = await new jose.SignJWT({
-      email: userWithEmail.email,
+      email: user.email,
     })
       .setProtectedHeader({ alg })
       .setExpirationTime("24h")
       .sign(secret);
 
+    setCookie("jwt", token, { req, res, maxAge: 60 * 6 * 24 });
+
     res.status(200).json({
-      token,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      phone: user.phone,
+      city: user.city,
     });
   }
 

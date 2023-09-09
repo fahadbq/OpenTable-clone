@@ -7,30 +7,7 @@ const prisma = new PrismaClient();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const bearerToken = req.headers["authorization"] as string;
-
-  if (!bearerToken) {
-    return res.status(401).json({
-      errorMessage: "Unauthorized request",
-    });
-  }
-
   const token = bearerToken.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({
-      errorMessage: "Unauthorized request",
-    });
-  }
-
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-
-  try {
-    await jose.jwtVerify(token, secret);
-  } catch (err) {
-    res.status(401).json({
-      errorMessage: "Unauthorized request",
-    });
-  }
 
   const payload = jwt.decode(token) as { email: string };
 
@@ -54,7 +31,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  return res.json({ user });
+  if (!user) {
+    return res.status(401).json({
+      errorMessage: "User not found",
+    });
+  }
+
+  return res.json({
+    id: user.id,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    phone: user.phone,
+    city: user.city,
+  });
 };
 
 export default handler;
