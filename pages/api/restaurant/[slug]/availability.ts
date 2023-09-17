@@ -115,7 +115,5 @@ export default async function handler(
       return timeIsAfterOpeningHour && timeIsBeforeClosingHour;
     });
 
-  return res.json({
-    availabilities,
-  });
+  return res.json(availabilities);
 }
