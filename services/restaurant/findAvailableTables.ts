@@ -7,17 +7,17 @@ const prisma = new PrismaClient();
 export const findAvailableTables = async ({
   time,
   day,
-  restaurant,
   res,
+  restaurant,
 }: {
   time: string;
   day: string;
+  res: NextApiResponse;
   restaurant: {
     tables: Table[];
     open_time: string;
     close_time: string;
   };
-  res: NextApiResponse;
 }) => {
   const searchTimes = times.find((t) => {
     return t.time === time;
