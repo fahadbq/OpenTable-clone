@@ -7,7 +7,10 @@ import DatePicker from "react-datepicker";
 import useAvailabilities from "../../../../hooks/useAvailibility";
 import { CircularProgress } from "@mui/material";
 import Link from "next/link";
-import { convertToDisplayTime } from "../../../../utils/convertToDisplayTime";
+import {
+  convertToDisplayTime,
+  Time,
+} from "../../../../utils/convertToDisplayTime";
 
 const ReservationCard = ({
   openTime,
@@ -23,6 +26,7 @@ const ReservationCard = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [time, setTime] = useState(openTime);
   const [partySize, setPartySize] = useState("2");
+
   const [day, setDay] = useState(new Date().toISOString().split("T")[0]);
 
   const handleChangeDate = (date: Date | null) => {
@@ -35,7 +39,7 @@ const ReservationCard = ({
 
   const handleClick = () => {
     fetchAvailabilities({
-      slug: slug,
+      slug,
       day,
       time,
       partySize,
@@ -129,7 +133,7 @@ const ReservationCard = ({
                   className="bg-red-600 cursor-pointer p-2 w-24 text-white text-center mb-3 rounded mr-3"
                 >
                   <p className="text-sm font-bold">
-                    {convertToDisplayTime(t.time)}
+                    {convertToDisplayTime(t.time as Time)}
                   </p>
                 </Link>
               ) : (
